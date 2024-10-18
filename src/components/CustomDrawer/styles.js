@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     PagesText:{
         fontFamily: fonts.text,
         fontSize: 18,
-        color: '#000',
+        color: '#fff',
         alignSelf: "center",
         marginLeft: 10,
     },
@@ -35,17 +35,18 @@ export const styles = StyleSheet.create({
     SairText:{
         fontFamily: fonts.text,
         fontSize: 18,
-        color: '#000',
+        color: '#fff',
         alignSelf: "center",
         marginLeft: 20,
     },
 
     footer:{
-        padding: 10,
+        padding: 20,
+        backgroundColor: '#696AC9',
     },
 
     logo:{
-        width: 135,
+        width: 90,
         height: 80,
         alignSelf: "center",
         marginTop: 10,

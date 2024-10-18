@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
 
     header:{
         
-        backgroundColor: '#808080',
+        backgroundColor: '#696AC9',
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.1,
         elevation: 6,
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     },
 
     logo:{
-        width: 120,
+        width: 70,
         height: 60,
         alignSelf: "center",
         marginTop: 0,
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
     image:{
         width: 70,
         height: 70,
-        borderRadius: 30
+        borderRadius: 30,
     },
 
     lenghtText:{
@@ -103,37 +103,41 @@ export const styles = StyleSheet.create({
 
     box:{
         backgroundColor: 'white',
-        justifyContent: 'space-between',
+        height: 60,
+        justifyContent: 'center',
         flexDirection: 'row',
-        padding: 15,
-        marginTop: 30,
-        borderTopLeftRadius: 15,
-        borderTopRightRadius: 15,
+        padding: 'auto',
+        marginTop: 70,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
         shadowColor: 'rgba(0, 0, 0, 0.1)',
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.4,
         elevation: 5,
         shadowRadius: 15,
         shadowOffset : { width: 1, height: 1},
+
         
     },
 
     rText:{
+        top: 30,
         fontSize: 20,
-        color: 'gray',
+        color: '#232256',
         fontFamily: fonts.text,
     },
 
     textFooter:{
         borderTopColor: '#ccc',
+        height: 55,
         paddingTop: 15, 
         paddingBottom: 10, 
         borderTopWidth: 1,
-        color: '#FFF',
-        backgroundColor: '#808080',
+        color: '#fff',
+        backgroundColor: '#4699CD',
         textAlign: 'center',
         fontSize: 15,
-        borderBottomLeftRadius: 15,
-        borderBottomRightRadius: 15,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
         fontFamily: fonts.text,
     },
 

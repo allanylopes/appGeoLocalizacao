@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/core';
 import Home from '../screens/Home';
 import CustomDrawer from '../components/CustomDrawer';
 import Cadastro from '../screens/Cadastro';
-
+import Atual from '../screens/Atual';
 const DrawerRoutes = () => {
     
     const Drawer = createDrawerNavigator();
@@ -36,6 +36,11 @@ const DrawerRoutes = () => {
        <Drawer.Screen 
             name="Cadastro"
             component={Cadastro}
+            
+        />
+               <Drawer.Screen 
+            name="Atual"
+            component={Atual}
             
         />
 

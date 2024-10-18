@@ -1,190 +1,112 @@
+import React, {useState, useEffect, useRef} from 'react';
+import {Text,View} from 'react-native';
+
+import MapView from 'react-native-maps';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
+import { css } from '../../../assets/css/Css';
+import config from '../../../config';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import MapViewDirections from 'react-native-maps-directions';
 
 
+export default function App() {
+  const [origin, setOrigin] = useState(null);
+  const [destination, setDestination] = useState(null);
+  const mapEl=useRef(null);
+  const [distance, setDistance] = useState(null);
 
-import React, { useState, useEffect } from 'react';
-import { ScrollView,Alert, Text, TextInput, View, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
-import {  useNavigation } from '@react-navigation/core';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { styles } from './style';
-import { showMessage, hideMessage } from "react-native-flash-message";
+  
+useEffect(()=>{
+  (async function(){      
+    let { status } = await Location.requestForegroundPermissionsAsync(); 
+      if (status === 'granted') {
+          let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true});
+          setOrigin({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00421
+          })
+      } else {
+          throw new Error('Location permission not granted');
+      }
+  })();
+},[]);
+return (
+<View style={css.container}>
+    <MapView
+    style={css.map}
+    initialRegion={origin}
+    showsUserLocation={true}
+    zoomEnabled={true}
+    loadingEnabled={true}
+    ref={mapEl}
+    >
+      
 
-
-import api from '../../../services/api';
-
-const Cadastro = FC= () => { 
-
-    const navigation=  any= useNavigation();
-   
-    //CRIE O STATES PARA CADA ATRIBUTO
-    const [titular, setTitular] = useState("");   
-    const [nome, setNome] = useState("");   
-    const [especie, setEspecie] = useState(""); 
-    const [raca, setRaca] = useState(""); 
-    const [porte, setPorte] = useState(""); 
-         
-    const [success, setSuccess] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-
-
-   async function saveData() {            
+      {/* 2 parte busca e rotas  */}
+{destination &&
+  <MapViewDirections
+          origin={origin}
+          destination={destination}
+          apikey={config.googleApi}
+          strokeWidth={1}
+          strokeColor='#FF0000'
+          onReady={result=>
+          {
+          setDistance(result.distance);
+          mapEl.current.fitToCoordinates(
+             result.coordinates,{
+                 edgePadding:{
+                     top:50,
+                     bottom:50,
+                     left:50,
+                     right:50
+                 }                 
+             }             
+         );
+       
+        }
         
-           if (titular == "" || nome == "" || especie == "" || raca == "" || porte == "") {
-            showMessage({
-                message: "Erro ao Salvar",
-                description: 'Preencha os Campos Obrigatórios!',
-                type: "warning",
-            });
-            return;
-        }
+      }
+      
+      >
+</MapViewDirections>
+}        
 
-        try {
-            const obj = {
-
-            //TROQUE PELOS SEUS ATRIBUTOS
-                titular: titular, 
-                nome: nome,   
-                especie: especie,
-                raca: raca,
-                porte: porte,
-
-                    
-            }
-
-            //ATENÇÃO TROQUE PASTA QUE ESTÁ NO XAMPP PELO NOME DA SUA PASTA CRIADA NO LOCALHOST
-            const res = await api.post('provaAllany/salvar.php', obj);
-
-            if (res.data.sucesso === false) {
-                showMessage({
-                    message: "Erro ao Salvar",
-                    description: res.data.mensagem,
-                    type: "warning",
-                    duration: 3000,
-                });               
-                return;
-            }
-
-            setSuccess(true);
-            showMessage({
-                message: "Salvo com Sucesso",
-                description: "Registro Salvo",
-                type: "success",
-                duration: 800,             
-            });          
-          
-        } catch (error) {
-            Alert.alert("Ops", "Alguma coisa deu errado, tente novamente.");
-            setSuccess(false);
-        }
-    }     
-    
-    
-
-    return (
-        <View style={{ flex: 1, marginTop: 0, backgroundColor: '#C0C0C0', }}>
-            <View style={styles.Header}>
-                 <Image style={styles.logo} source={require('../../../assets/logo2.png')} />         
-          <TouchableOpacity
-              onPress={ () =>  navigation.navigate("Home")}
-          >
-           <Ionicons style={{marginLeft:5, marginRight:5}} name="caret-back-outline" size={35} color="#BC8F8F"></Ionicons>
-          </TouchableOpacity>
-                           
-            </View>
-
-            <View style={styles.Title}>
-
-                     <Ionicons name="paw-outline" size={35} color="#ffffff" />
-                        <Text style={styles.TitleText}>CADASTRE SEU PET</Text>
-                    </View>
-
-            <ScrollView>   
-            <View>  
-                 {/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO1 */}
-                <Text style={styles.TitleInputs}>Nome do Titular:</Text>
+</MapView>
 
 
-                {/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO1 */}
-                <TextInput               
-                    placeholder="Coloque seu nome"
-                    onChangeText={(text) => setTitular(text)}
-                    value={titular}
-                    style={styles.TextInput}
-                />
-            </View>
-
-            <View>  
-                 {/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO2 */}
-                <Text style={styles.TitleInputs}>Nome do pet:</Text>
-
-
-                {/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO2 */}
-                <TextInput               
-                    placeholder="Coloque o nome do seu pet"
-                    onChangeText={(text) => setNome(text)}
-                    value={nome}
-                    style={styles.TextInput}
-                />
-            </View>
-
-            <View>  
-            <Text style={styles.TitleInputs}>Espécie do seu pet:</Text>
+{/*para segunda parte da busca e rotas acrescentamos esta view */}
+<View style={css.search}>
+  <GooglePlacesAutocomplete
+          placeholder='Para onde vamos?'
+          onPress={(data, details = null) => {
+          setDestination({
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng,
+              latitudeDelta: 0.000922,
+              longitudeDelta: 0.000421
+          });
+      }}
+      query={{
+          key: config.googleApi,
+          language: 'pt-br',
+      }}
+      enablePoweredByContainer={false}
+      fetchDetails={true}
+      styles={{listView:{height:100}}}
+  />
 
 
-{/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO2 */}
-            <TextInput               
-                placeholder="Coloque a espécie do seu pet"
-                onChangeText={(text) => setEspecie(text)}
-                value={especie}
-                style={styles.TextInput}
-            />
-        </View>
-
-
-        <View>  
-            <Text style={styles.TitleInputs}>Raça do seu pet:</Text>
-
-
-{/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO2 */}
-            <TextInput               
-                placeholder="Coloque a raça do seu pet"
-                onChangeText={(text) => setRaca(text)}
-                value={raca}
-                style={styles.TextInput}
-            />
-        </View>
-
-
-        <View>  
-            <Text style={styles.TitleInputs}>Porte do seu pet:</Text>
-
-
-{/*TROQUE OS DADOS REFERENTRE AO SEU ATRIBUTO2 */}
-            <TextInput               
-                placeholder="Coloque o tamanho do seu pet"
-                onChangeText={(text) => setPorte(text)}
-                value={porte}
-                style={styles.TextInput}
-            />
-        </View>
-                       
-                  
-                <TouchableOpacity
-                    style={styles.Button}
-                    onPress={() => {
-                        setSuccess(true);
-                        saveData();
-                        setSuccess(false);
-                    }}
-                >
-
-                    <Text style={styles.ButtonText}>SALVAR</Text>
-                </TouchableOpacity>
-
-                </ScrollView>                 
-
-        </View>
-    );
+</View>
+{distance && 
+ <Text style={css.distancia}> Distância: {distance} </Text>
 }
+    <View style={css.search}>
 
-export default Cadastro;
+    </View>
+</View>
+)
+}

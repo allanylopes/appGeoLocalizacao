@@ -36,7 +36,7 @@ const CustomDrawer= FC = () => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#C0C0C0' }}>
+        <View style={{ flex: 1, backgroundColor: '#696AC9' }}>
             <Image style={styles.logo} source={require('../../../assets/logo2.png')} />
 
             <View style={{ width: '90%', backgroundColor: '#c1c1c1', height: 0.5, alignSelf: 'center', marginBottom: 5, marginTop: 20 }}></View>
@@ -52,9 +52,19 @@ const CustomDrawer= FC = () => {
                             navigation.dispatch(DrawerActions.closeDrawer())
                         }}
                     >
-                        <MaterialIcons style={styles.iconRegistered} name="people-alt" size={30} color="#BC8F8F" />
 
-                        <Text style={styles.PagesText}>Cadastrar seu Pet</Text>
+                        <Text style={styles.PagesText}>Mapa Rotas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.Pages}
+                        onPress={() => {
+                            navigation.navigate("Atual")
+                            navigation.dispatch(DrawerActions.closeDrawer())
+                        }}
+                    >
+
+                        <Text style={styles.PagesText}>Mapa Atual</Text>
                     </TouchableOpacity>
 
                    
@@ -69,7 +79,7 @@ const CustomDrawer= FC = () => {
                     onPress={() => logout()}
                     style={styles.Sair}
                 >
-                    <MaterialIcons name="subdirectory-arrow-left" size={25} color="#BC8F8F" />
+                    <MaterialIcons name="subdirectory-arrow-left" size={25} color="#fff" />
                     <Text style={styles.SairText}>Sair</Text>
                 </TouchableOpacity>
             </View>

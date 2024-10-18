@@ -6,6 +6,7 @@ import DrawerRoutes from './drawer.routes';
 
 import Home from '../screens/Home';
 import Cadastro from '../screens/Cadastro';
+import Atual from '../screens/Atual';
 
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +17,7 @@ function StackNavigator(){
 
             <Stack.Screen name="Home" component={DrawerRoutes} />                     
             <Stack.Screen name="Cadastro" component={Cadastro} /> 
-          
+            <Stack.Screen name="Atual" component={Atual} /> 
         </Stack.Navigator>
     )
 }

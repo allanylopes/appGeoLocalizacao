@@ -72,7 +72,7 @@ export default function Home() {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#C0C0C0' }}>
+        <View style={{ flex: 1, backgroundColor: '#E1DFDF' }}>
             <StatusBar barStyle="light-content" />
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
@@ -82,7 +82,7 @@ export default function Home() {
                             style={styles.menu}
                             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
                         >
-                            <MaterialIcons name="menu" size={35} color="#BC8F8F" />
+                            <MaterialIcons name="menu" size={35} color="#FFF" />
                         </TouchableOpacity>
 
                         <Image style={styles.logo} source={require('../../../assets/logo2.png')} />
@@ -109,24 +109,10 @@ export default function Home() {
 
                         <View style={styles.circleProgressView}>
                             <View style={styles.textProgressContainer}>
-                                <Text style={styles.textProgressTitle}>PETS CADASTRADOS</Text>
-                                <Text style={styles.textProgress}>Quantidade de pets cadastrados</Text>
+                                <Text style={styles.textProgressTitle}>MENU MAPA ROTAS</Text>
                             </View>
 
-                            <AnimatedCircularProgress
-                                size={80}
-                                width={8}
-                                fill={10}
-                                tintColor="#FFB6C1"
-                                backgroundColor="#e0e0e0"
-                                lineCap={"round"}
-                            >
-                                {
-                                    (fill) => (
-                                        <Text style={styles.numberInside}>10</Text>
-                                    )
-                                }
-                            </AnimatedCircularProgress>
+
                         </View>
 
 
@@ -135,17 +121,34 @@ export default function Home() {
                             <TouchableOpacity onPress={() => navigation.navigate("Cadastro")}>
                                 <View>
                                     <View style={styles.box}>
-                                        <MaterialIcons style={styles.iconRegistered} name="book" size={70} color="#BC8F8F" />
                                         <View style={styles.textos}>
-                                            <Text style={styles.rText}>Pets Registrados</Text>
+                                            <Text style={styles.rText}>MAPA ROTAS</Text>
                                          <Text style={styles.lenghtText}>{total.total_usuarios}</Text>  
                                         </View>
                                     </View>
-                                    <Text style={styles.textFooter}>VERIFICAR PETS CADASTRADOS</Text>
+                                    <Text style={styles.textFooter}>ENTRAR</Text>
+                                    
                                     
                                 </View>
+
+                                
                             </TouchableOpacity>
 
+                            <TouchableOpacity onPress={() => navigation.navigate("Atual")}>
+                                <View>
+                                    <View style={styles.box}>
+                                        <View style={styles.textos}>
+                                            <Text style={styles.rText}>MAPA ATUAL</Text>
+                                         <Text style={styles.lenghtText}>{total.total_usuarios}</Text>  
+                                        </View>
+                                    </View>
+                                    <Text style={styles.textFooter}>ENTRAR</Text>
+                                    
+                                    
+                                </View>
+
+                                
+                            </TouchableOpacity>
                         </View>
 
 
